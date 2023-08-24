@@ -6,8 +6,6 @@
 <p> use SoftDeletes; protected $dates = ['deleted_at'];</p>
 <h3>Code mẫu: </h3>
 ```php
-<?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
