@@ -20,3 +20,4 @@ class Site extends Model
     protected $dates = ['deleted_at'];
 }
 ```
+code gì đó
