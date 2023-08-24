@@ -21,3 +21,20 @@ class Site extends Model
 }
 ```
 
+<h2>Tùy chỉnh trạng thái của nút checkbox bật tắt</h2>
+<p>Kiểu dữ liệu của database: BIT</p>
+<p>Kiểu dữ liệu đầu vào của BREAD: Checkbox</p>
+<p>Tùy chỉnh chi tiết:</p>
+
+```
+{
+    "on": "Hoạt động",
+    "off": "Tạm ngưng",
+    "checked": true
+}
+```
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
