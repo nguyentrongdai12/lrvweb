@@ -5,7 +5,7 @@
 <p> Bật chức năng soft delete: </p>
 <p> use SoftDeletes; protected $dates = ['deleted_at'];</p>
 <h3>Code mẫu: </h3>
-<p>
+```
 <?php
 
 namespace App\Models;
@@ -19,6 +19,4 @@ class Site extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 }
-
-</p>
-<p></p>
+```
