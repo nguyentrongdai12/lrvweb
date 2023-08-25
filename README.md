@@ -47,3 +47,31 @@ class Site extends Model
     }
 }
 ```
+
+<h2>Chỉnh sửa footer</h2>
+<p>1. Đường dẫn gốc file footer: D:\XAMPP\htdocs\lrvweb\vendor\tcg\voyager\resources\views\partials\app-footer.blade.php</p>
+<p>2. Tạo đường dẫn mới trong project: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\partials</p>
+<p>3. Copy file app-footer.blade.php ở đường dẫn (1) vào đường dẫn (2)</p>
+<p>Nội dung file app-footer-blade.php: </p>
+
+```
+<footer class="app-footer">
+    <div class="site-footer-right">
+        @if (rand(1,100) == 100)
+            <i class="voyager-rum-1"></i> {{ __('voyager::theme.footer_copyright2') }}
+        @else
+            {!! __('voyager::theme.footer_copyright') !!} <a href="http://thecontrolgroup.com" target="_blank">The Control Group</a>
+        @endif
+        @php $version = Voyager::getVersion(); @endphp
+        @if (!empty($version))
+            - {{ $version }}
+        @endif
+    </div>
+</footer>
+```
+
+<p>4. Chỉnh sửa nội dung file tùy ý</p>
+<p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
+<p></p>
+
+<p></p>
