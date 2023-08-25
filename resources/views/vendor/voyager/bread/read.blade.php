@@ -44,12 +44,11 @@
                             $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_read'};
                         }
                         @endphp
-                        <div class="row">
-                            <div class="panel-heading col-md-4" style="border-bottom:0;">
+                            <div class="panel-heading" style="border-bottom:0;">
                                 <h3 class="panel-title">{{ $row->getTranslatedAttribute('display_name') }}</h3>
                             </div>
 
-                            <div class="panel-heading col-md-8">
+                            <div class="panel-heading " style="padding-top:0; margin-left: 10px;">
                                 @if (isset($row->details->view_read))
                                     @include($row->details->view_read, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'view' => 'read', 'options' => $row->details])
                                 @elseif (isset($row->details->view))
@@ -132,7 +131,6 @@
                                     <p>{{ $dataTypeContent->{$row->field} }}</p>
                                 @endif
                             </div><!-- panel-body -->
-                        </div>
                         @if(!$loop->last)
                             <hr style="margin:0;">
                         @endif

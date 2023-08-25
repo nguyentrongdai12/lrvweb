@@ -159,9 +159,13 @@
                                                         @endif
 
                                                 @elseif(($row->type == 'select_dropdown' || $row->type == 'radio_btn') && property_exists($row->details, 'options'))
-
-                                                    {!! $row->details->options->{$data->{$row->field}} ?? '' !!}
-
+                                                @if($data->{$row->field} == 0)
+                                                            <span class="label label-danger"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
+                                                        @elseif($data->{$row->field} == 1)
+                                                            <span class="label label-info"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
+                                                        @else
+                                                            <span class="label label-primary"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
+                                                        @endif
                                                 @elseif($row->type == 'date' || $row->type == 'timestamp')
                                                     @if ( property_exists($row->details, 'format') && !is_null($data->{$row->field}) )
                                                         {{ \Carbon\Carbon::parse($data->{$row->field})->formatLocalized($row->details->format) }}
