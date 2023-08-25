@@ -35,7 +35,7 @@ class Site extends Model
 ```
 <h2>Tạo trường slug bằng slugify</h2>
 <p>1. Xác định cột:</p>
-<p> - Cột sLug sẽ lấy dữ liệu của cột tên hạng mục để phân tích text ra slug</p>
+<p> - Cột slug sẽ lấy dữ liệu của cột tên hạng mục để phân tích text ra slug</p>
 <p>** Cột tên hạng mục có tên cột trong database: tenhangmuc</p>
 <p>2. Thêm tùy biến cho cột slug trong BREAD</p>
 
