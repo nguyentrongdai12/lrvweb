@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-
-class Jobtitle extends Model
+class Danhmucchi extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+    
 }
