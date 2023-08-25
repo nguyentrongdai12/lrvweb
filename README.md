@@ -72,6 +72,17 @@ class Site extends Model
 
 <p>4. Chỉnh sửa nội dung file tùy ý</p>
 <p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
-<p></p>
 
-<p></p>
+<h2>Tạo view tùy chỉnh (toàn bộ bread)</h2>
+<p>1. Các file view của bread gốc voyager tại:  D:\XAMPP\htdocs\lrvweb\vendor\tcg\voyager\resources\views\bread </p>
+<p>2. Tạo đường dẫn views của app theo đường dẫn: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\bread</p>
+<p>3. Copy toàn bộ file từ đường dẫn (1) sang đường dẫn (2)</p>
+<p>Danh sách file:</p>
+<ul>
+    <li>browse.blade.php <i>(Trang view của BREAD)</i></li>
+    <li>edit-add.blade.php <i>(Trang chỉnh sửa - thêm)</i></li>
+    <li>order.balde.php <i>(Trang sắp xếp)</i></li>
+    <li>read.blade.php <i>(Trang xem chi tiết)</i></li>
+</ul>
+<p>Chỉnh sửa nội dung theo ý (Code html)</p>
+<p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
