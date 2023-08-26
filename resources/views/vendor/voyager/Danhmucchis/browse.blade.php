@@ -25,8 +25,11 @@
         @endcan
         @can('delete', app($dataType->model_name))
             @if($usesSoftDeletes)
+            <!--
                 <input type="checkbox" @if ($showSoftDeleted) checked @endif id="show_soft_deletes" data-toggle="toggle" data-on="{{ __('voyager::bread.soft_deletes_off') }}" data-off="{{ __('voyager::bread.soft_deletes_on') }}">
-            @endif
+            -->
+                <a href="#" class="btn btn-success btn-add-new">Thùng rác</a>
+            @endif  
         @endcan
         @foreach($actions as $action)
             @if (method_exists($action, 'massAction'))
@@ -380,7 +383,7 @@
                     if ($(this).prop('checked')) {
                         $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 1]), true)) }}"></a>');
                     }else{
-                        $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 0]), true)) }}"></a>');
+                        $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 0]), true)) }}"></a>');                        
                     }
 
                     $('#redir')[0].click();

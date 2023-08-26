@@ -103,4 +103,23 @@ class Site extends Model
 <p>Chỉnh sửa nội dung theo ý (Code html)</p>
 <p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
 
+
+<h2>Tùy chỉnh controller (tạo child controller)</h2>
+<p>1. Sửa file config tại đường dẫn: D:\XAMPP\htdocs\lrvweb\config\voyager.php</p>
+
+```
+ 'controllers' => [
+        'namespace' => 'App\\Http\\Controllers\\Voyager',
+    ],
+```
+
+<p>2. Chạy lệnh: php artisan voyager:controllers</p>
+
+```
+ 'controllers' => [
+        'namespace' => 'App\\Http\\Controllers\\Voyager',
+    ],
+ ```
+
+<p>3. Các file contorller sẽ được tạo tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Voyager</p>
 <p></p>
