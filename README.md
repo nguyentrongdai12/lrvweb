@@ -123,3 +123,110 @@ class Site extends Model
 
 <p>3. Các file contorller sẽ được tạo tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Voyager</p>
 <p></p>
+
+<h2>Tạo: custom action, Route, controller và liên kết xử lý xóa dữ liệu</h2>
+<p>Điều kiện: nút xóa vĩnh viễn xuất hiện với Row đã xóa vào thùng rác</p>
+<p>Nút xóa dẫn đến Route, Route dẫn đến controller và xử lý</p>
+<ul>
+    <li>Nút xóa: DeleteForever</li>
+    <li>Route: deleteforever</li>
+    <li>Controller: Cdbcontroller</li>
+    <li>Function: deleteforever</li>
+</ul>
+<p>Bước 1: Tạo nút xóa</p>
+<ul>
+    <li>Tạo file: D:\XAMPP\htdocs\lrvweb\app\Actions\DeleteForever.php</li>
+    <li>Nội dung:</li>
+</ul>
+
+```
+class DeleteForever extends AbstractAction
+{
+    public function getTitle()
+    {
+        return 'Xóa';
+    }
+    public function getIcon()
+    {
+        return 'voyager-trash';
+    }
+
+    public function getPolicy()
+    {
+        return 'browse';
+    }
+    public function getAttributes()
+    {
+        return [
+            'class' => 'btn btn-sm btn-primary pull-right',
+            'style' => 'margin-right:5px;',
+            //'data-id' => $this->data->{$this->data->getKeyName()},
+            //'id'      => 'destroy-'.$this->data->{$this->data->getKeyName()},
+        ];
+    }
+    public function confirm()
+    {
+        return 'Are you sure you want to permanently delete this item?';
+    }
+    public function getDefaultRoute()
+    {
+       return route('deleteforever', ['table' => $this->dataType->slug, 'keyvalue' => $this->data->{$this->data->getKeyName()}] );
+    }
+    public function shouldActionDisplayOnRow($row)
+    {   
+        return $row->deleted_at != '';
+    }
+}
+```
+
+<p>Bước 2: Khai báo nút mới tạo tại: D:\XAMPP\htdocs\lrvweb\app\Providers\AppServiceProvider.php</p>
+<p>Nội dung:</p>
+
+```
+    public function boot()
+    {
+        Voyager::replaceAction(DeleteAction::class, MyDeleteAction::class);
+        Voyager::replaceAction(EditAction::class, MyEditAction::class);
+    // Thêm mới nút Deleteforever
+        Voyager::addAction(\App\Actions\DeleteForever::class); 
+    }
+```
+
+<p>Bước 3: Tạo Route mới tại: D:\XAMPP\htdocs\lrvweb\routes\web.php</p>
+<p>Nội dung:</p>
+
+```
+Route::group(['prefix' => 'admin'], function () {
+   
+    Voyager::routes(); 
+
+    Route::get('deleteforever/{table}/{keyvalue}', 'App\Http\Controllers\Cdbcontroller@deleteforever')->name('deleteforever');
+    
+});
+```
+
+<p>Bước 4: Tạo 1 file Controller tại: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Cdbcontroller.php</p>
+<p>Nội dung:</p>
+
+```
+<?php
+
+namespace App\Http\Controllers;
+
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class Cdbcontroller extends Controller
+{
+    public function deleteforever($table, $keyvalue)
+    {
+        $data = DB::table($table)->where('id',$keyvalue)->delete();
+        return redirect()->route('voyager.' . $table . '.index');  
+    }
+}
+```
+
+<p></p>
+<p></p>
+<p></p>
