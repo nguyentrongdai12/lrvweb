@@ -34,7 +34,9 @@
         @endforeach
         
         <!-- Thêm html của nút dọn thùng rác -->
-        <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
+        @if($usesSoftDeletes)
+            <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
+        @endif
 
         <a href="{{ setting('admin.github-dainguyen') }}" target="_blank" class="btn btn-link pull-right">Link github README.mb</a>
 

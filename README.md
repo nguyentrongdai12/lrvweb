@@ -124,89 +124,10 @@ class Site extends Model
 <p>3. Các file contorller sẽ được tạo tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Voyager</p>
 <p></p>
 
-<h2>Tạo: custom action, Route, controller và liên kết xử lý xóa dữ liệu</h2>
-<p>Điều kiện: nút xóa vĩnh viễn xuất hiện với Row đã xóa vào thùng rác</p>
-<p>Nút xóa dẫn đến Route, Route dẫn đến controller và xử lý</p>
-<ul>
-    <li>Nút xóa: DeleteForever</li>
-    <li>Route: deleteforever</li>
-    <li>Controller: Cdbcontroller</li>
-    <li>Function: deleteforever</li>
-</ul>
-<p>Bước 1: Tạo nút xóa</p>
-<ul>
-    <li>Tạo file: D:\XAMPP\htdocs\lrvweb\app\Actions\DeleteForever.php</li>
-    <li>Nội dung:</li>
-</ul>
+<h2>Tạo nút xóa thùng rác</h2>
 
-```
-class DeleteForever extends AbstractAction
-{
-    public function getTitle()
-    {
-        return 'Xóa';
-    }
-    public function getIcon()
-    {
-        return 'voyager-trash';
-    }
-
-    public function getPolicy()
-    {
-        return 'browse';
-    }
-    public function getAttributes()
-    {
-        return [
-            'class' => 'btn btn-sm btn-primary pull-right',
-            'style' => 'margin-right:5px;',
-            //'data-id' => $this->data->{$this->data->getKeyName()},
-            //'id'      => 'destroy-'.$this->data->{$this->data->getKeyName()},
-        ];
-    }
-    public function confirm()
-    {
-        return 'Are you sure you want to permanently delete this item?';
-    }
-    public function getDefaultRoute()
-    {
-       return route('deleteforever', ['table' => $this->dataType->slug, 'keyvalue' => $this->data->{$this->data->getKeyName()}] );
-    }
-    public function shouldActionDisplayOnRow($row)
-    {   
-        return $row->deleted_at != '';
-    }
-}
-```
-
-<p>Bước 2: Khai báo nút mới tạo tại: D:\XAMPP\htdocs\lrvweb\app\Providers\AppServiceProvider.php</p>
-<p>Nội dung:</p>
-
-```
-    public function boot()
-    {
-        Voyager::replaceAction(DeleteAction::class, MyDeleteAction::class);
-        Voyager::replaceAction(EditAction::class, MyEditAction::class);
-    // Thêm mới nút Deleteforever
-        Voyager::addAction(\App\Actions\DeleteForever::class); 
-    }
-```
-
-<p>Bước 3: Tạo Route mới tại: D:\XAMPP\htdocs\lrvweb\routes\web.php</p>
-<p>Nội dung:</p>
-
-```
-Route::group(['prefix' => 'admin'], function () {
-   
-    Voyager::routes(); 
-
-    Route::get('deleteforever/{table}/{keyvalue}', 'App\Http\Controllers\Cdbcontroller@deleteforever')->name('deleteforever');
-    
-});
-```
-
-<p>Bước 4: Tạo 1 file Controller tại: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Cdbcontroller.php</p>
-<p>Nội dung:</p>
+<h3>1. Tạo Controller:</h3>
+<p>Tạo 1 file mới với tên Cdbcontroller.php tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Cdbcontroller.php</p>
 
 ```
 <?php
@@ -224,9 +145,76 @@ class Cdbcontroller extends Controller
         $data = DB::table($table)->where('id',$keyvalue)->delete();
         return redirect()->route('voyager.' . $table . '.index');  
     }
+
+    public function deletetrash($table, $check)
+    {
+        if($check)
+        {
+            $data = DB::table($table)->where('deleted_at','!=','')->delete();
+            return redirect()->route('voyager.' . $table . '.index');
+        }          
+    }
 }
+
 ```
 
-<p></p>
-<p></p>
-<p></p>
+<h3>2. Tạo 1 route để điều hướng đến Controller vừa tạo</h3>
+<p>Tạo route mới:</p>
+
+```
+Route::get('deletetrash/{table}/{check}', 'App\Http\Controllers\Cdbcontroller@deletetrash')->name('deletetrash'); 
+```
+
+<p>Tại file:  D:\XAMPP\htdocs\lrvweb\routes\web.php</p>
+
+```
+Route::group(['prefix' => 'admin'], function () {   
+    Voyager::routes(); 
+
+    Route::get('deleteforever/{table}/{keyvalue}', 'App\Http\Controllers\Cdbcontroller@deleteforever')->name('deleteforever');
+    Route::get('deletetrash/{table}/{check}', 'App\Http\Controllers\Cdbcontroller@deletetrash')->name('deletetrash');
+});
+```
+
+<h3>3. Tạo nút xóa và modal</h3>
+<p>- Nút xóa: Thêm đoạn code sau vào file: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\bread\browse.blade.php</p>
+
+```
+<!-- Thêm html của nút dọn thùng rác -->
+        @if($usesSoftDeletes)
+            <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
+        @endif
+```
+
+<p>Thêm modal cảnh báo:</p>
+
+```
+<!-- modal của delete trash --> 
+    <div class="modal modal-danger fade" tabindex="-1" id="delete_trash_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> Thông báo dọn sạch thùng rác</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="delete_trash_form" method="GET">
+                        
+                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="{{ __('voyager::generic.delete_confirm') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+```
+
+<p>Script của modal:</p>
+
+```
+// script delete trash
+        $('.delete_trash_btn').on('click', function () {
+            $('#delete_trash_form')[0].action = '{{ route('deletetrash', ['table' => $dataType->slug, 'check' => True]) }}';
+           $('#delete_trash_modal').modal('show');
+        });
+```
