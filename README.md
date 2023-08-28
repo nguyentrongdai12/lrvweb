@@ -218,3 +218,9 @@ Route::group(['prefix' => 'admin'], function () {
            $('#delete_trash_modal').modal('show');
         });
 ```
+
+<p>route gán vào link cho các row ở browse</p>
+
+```
+<a href="{{ route('voyager.'.$dataType->slug.'.edit', $data->{$data->getKeyName()}) }}">
+```
