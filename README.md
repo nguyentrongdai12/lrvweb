@@ -49,8 +49,8 @@ class Site extends Model
 ```
 
 <h2>Chỉnh sửa footer</h2>
-<p>1. Đường dẫn gốc file footer: D:\XAMPP\htdocs\lrvweb\vendor\tcg\voyager\resources\views\partials\app-footer.blade.php</p>
-<p>2. Tạo đường dẫn mới trong project: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\partials</p>
+<p>1. Đường dẫn gốc file footer: ..\vendor\tcg\voyager\resources\views\partials\app-footer.blade.php</p>
+<p>2. Tạo đường dẫn mới trong project: ..\resources\views\vendor\voyager\partials</p>
 <p>3. Copy file app-footer.blade.php ở đường dẫn (1) vào đường dẫn (2)</p>
 <p>Nội dung file app-footer-blade.php: </p>
 
@@ -74,8 +74,8 @@ class Site extends Model
 <p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
 
 <h2>Tạo view tùy chỉnh (toàn bộ bread)</h2>
-<p>1. Các file view của bread gốc voyager tại:  D:\XAMPP\htdocs\lrvweb\vendor\tcg\voyager\resources\views\bread </p>
-<p>2. Tạo đường dẫn views của app theo đường dẫn: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\bread</p>
+<p>1. Các file view của bread gốc voyager tại:  ..\vendor\tcg\voyager\resources\views\bread </p>
+<p>2. Tạo đường dẫn views của app theo đường dẫn: ..\resources\views\vendor\voyager\bread</p>
 <p>3. Copy toàn bộ file từ đường dẫn (1) sang đường dẫn (2)</p>
 <p>Danh sách file:</p>
 <ul>
@@ -88,10 +88,10 @@ class Site extends Model
 <p><i>Lưu ý: Chỉ nên sửa file tại app, không nên sửa file gốc tại thư mục TCG</i></p>
 
 <h2>Tạo view tùy chỉnh (cho từng bread)</h2>
-<p>1. Các file view của bread gốc voyager tại:  D:\XAMPP\htdocs\lrvweb\vendor\tcg\voyager\resources\views\bread </p>
+<p>1. Các file view của bread gốc voyager tại:  ..\vendor\tcg\voyager\resources\views\bread </p>
 <p>2. Lấy tên của bread cần tạo custom view tại thanh địa chỉ</p>
 <p>Ví dụ đường dẫn của danh mục chi: http://localhost/lrvweb/public/admin/danhmucchis -> tên bread của danh mục chi là: danhmucchis</p>
-<p>3. Tạo đường dẫn views của danhmuchis theo đường dẫn: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\Danhmucchis -> <i>(Viết hoa chữ cái đầu)</i></p>
+<p>3. Tạo đường dẫn views của danhmuchis theo đường dẫn: ..\resources\views\vendor\voyager\Danhmucchis -> <i>(Viết hoa chữ cái đầu)</i></p>
 <p>4. Copy file view cần custom từ đường dẫn (1) sang đường dẫn (3)</p>
 <p>Danh sách file:</p>
 <ul>
@@ -105,7 +105,7 @@ class Site extends Model
 
 
 <h2>Tùy chỉnh controller (tạo child controller)</h2>
-<p>1. Sửa file config tại đường dẫn: D:\XAMPP\htdocs\lrvweb\config\voyager.php</p>
+<p>1. Sửa file config tại đường dẫn: ..\config\voyager.php</p>
 
 ```
  'controllers' => [
@@ -121,13 +121,13 @@ class Site extends Model
     ],
  ```
 
-<p>3. Các file contorller sẽ được tạo tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Voyager</p>
+<p>3. Các file Controller sẽ được tạo tại đường dẫn: ..\app\Http\Controllers\Voyager</p>
 <p></p>
 
 <h2>Tạo nút xóa thùng rác</h2>
 
 <h3>1. Tạo Controller:</h3>
-<p>Tạo 1 file mới với tên Cdbcontroller.php tại đường dẫn: D:\XAMPP\htdocs\lrvweb\app\Http\Controllers\Cdbcontroller.php</p>
+<p>Tạo 1 file mới với tên Cdbcontroller.php tại đường dẫn: ..\app\Http\Controllers\Cdbcontroller.php</p>
 
 ```
 <?php
@@ -165,7 +165,7 @@ class Cdbcontroller extends Controller
 Route::get('deletetrash/{table}/{check}', 'App\Http\Controllers\Cdbcontroller@deletetrash')->name('deletetrash'); 
 ```
 
-<p>Tại file:  D:\XAMPP\htdocs\lrvweb\routes\web.php</p>
+<p>Tại file:  ..\routes\web.php</p>
 
 ```
 Route::group(['prefix' => 'admin'], function () {   
@@ -177,7 +177,7 @@ Route::group(['prefix' => 'admin'], function () {
 ```
 
 <h3>3. Tạo nút xóa và modal</h3>
-<p>- Nút xóa: Thêm đoạn code sau vào file: D:\XAMPP\htdocs\lrvweb\resources\views\vendor\voyager\bread\browse.blade.php</p>
+<p>- Nút xóa: Thêm đoạn code sau vào file: ..\resources\views\vendor\voyager\bread\browse.blade.php</p>
 
 ```
 <!-- Thêm html của nút dọn thùng rác -->
