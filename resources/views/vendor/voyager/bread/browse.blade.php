@@ -32,6 +32,12 @@
                 @include('voyager::bread.partials.actions', ['action' => $action, 'data' => null])
             @endif
         @endforeach
+        
+        <!-- Thêm html của nút dọn thùng rác -->
+        <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
+
+        <a href="{{ setting('admin.github-dainguyen') }}" target="_blank" class="btn btn-link pull-right">Link github README.mb</a>
+
         @include('voyager::multilingual.language-selector')
     </div>
 @stop
@@ -88,7 +94,10 @@
                                             @if ($isServerSide && in_array($row->field, $sortableColumns))
                                                 <a href="{{ $row->sortByUrl($orderBy, $sortOrder) }}">
                                             @endif
-                                            {{ $row->getTranslatedAttribute('display_name') }}
+
+                                            
+                                            {{ $row->getTranslatedAttribute('display_name') }} <!-- mặc định hiển thị của nó -->
+
                                             @if ($isServerSide)
                                                 @if ($row->isCurrentSortField($orderBy))
                                                     @if ($sortOrder == 'asc')
@@ -310,7 +319,27 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div><!-- /.modal -->    
+
+    <!-- modal của delete trash --> 
+    <div class="modal modal-danger fade" tabindex="-1" id="delete_trash_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> Thông báo dọn sạch thùng rác</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="delete_trash_form" method="GET">
+                        
+                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="{{ __('voyager::generic.delete_confirm') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->  
+
 @stop
 
 @section('css')
@@ -360,6 +389,12 @@
         $('td').on('click', '.delete', function (e) {
             $('#delete_form')[0].action = '{{ route('voyager.'.$dataType->slug.'.destroy', '__id') }}'.replace('__id', $(this).data('id'));
             $('#delete_modal').modal('show');
+        });
+
+        // script delete trash
+        $('.delete_trash_btn').on('click', function () {
+            $('#delete_trash_form')[0].action = '{{ route('deletetrash', ['table' => $dataType->slug, 'check' => True]) }}';
+           $('#delete_trash_modal').modal('show');
         });
 
         @if($usesSoftDeletes)

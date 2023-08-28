@@ -8,6 +8,10 @@ class DeleteAction extends VoyagerDeleteAction
 {
     public function getTitle()
     {
-        return 'Thùng rác';
+        return '';
+    }
+    public function getDefaultRoute()
+    {
+        return 'javascript:;';
     }
 }

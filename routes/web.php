@@ -26,5 +26,5 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes(); 
 
     Route::get('deleteforever/{table}/{keyvalue}', 'App\Http\Controllers\Cdbcontroller@deleteforever')->name('deleteforever');
-    
+    Route::get('deletetrash/{table}/{check}', 'App\Http\Controllers\Cdbcontroller@deletetrash')->name('deletetrash');
 });

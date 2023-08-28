@@ -19,11 +19,11 @@ class DeleteForever extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Xóa';
+        return '';
     }
     public function getIcon()
     {
-        return 'voyager-trash';
+        return '';
     }
 
     public function getPolicy()
@@ -33,8 +33,9 @@ class DeleteForever extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-primary pull-right',
+            'class' => 'btn btn-sm btn-danger pull-right',
             'style' => 'margin-right:5px;',
+            'data-icon' => '&#xe030;',
             //'data-id' => $this->data->{$this->data->getKeyName()},
             //'id'      => 'destroy-'.$this->data->{$this->data->getKeyName()},
         ];
@@ -45,22 +46,7 @@ class DeleteForever extends AbstractAction
     }
     public function getDefaultRoute()
     {
-        //return route('voyager.'.$this->dataType->slug.'.Deleteforever', $this->data->{$this->data->getKeyName()});
-        //echo 'voyager.'.$this->dataType->slug.'.remove', $this->data->{$this->data->getKeyName()};
-        //return route('voyager.'.$this->dataType->slug.'.forceDelete', $this->data->{$this->data->getKeyName()});
-        //return route('voyager.'.$this->dataType->slug.'.destroy', $this->data->{$this->data->getKeyName()});
-        //$('#delete_form')[0].action = '{{ route('voyager.'.$dataType->slug.'.destroy', '__id') }}'.replace('__id', $(this).data('id'));
-        //$model = \App\Models\Danhmucchi::find(5);
-        //$model->forceDelete();
-       // return "";
-       
-       //$slug = $request->input('type_slug');
-       //$dataType = Voyager::model('DataType')->where('slug', '=', $slug)->firstOrFail();
-       //return route('deleteforever/'.$this->dataType->slug.'/'.$this->data->{$this->data->getKeyName()});
        return route('deleteforever', ['table' => $this->dataType->slug, 'keyvalue' => $this->data->{$this->data->getKeyName()}] );
-       //<a href="{{ route('deleteforever', ['table' => $dataType->slug, 'keyvalue' => $data->getKey()]) }}"> Xóa vĩnh viễn</a> 
-       //return route('deleteforever/{table}/{keyvalue}', 'Cdbcontroller@deleteforever')->where(['table' => $this->dataType->slug, 'keyvalue' => $this->data->{$this->data->getKeyName()}]);
-        //return route('test', 'Cdbcontroller@test');
     }
     public function shouldActionDisplayOnRow($row)
     {   

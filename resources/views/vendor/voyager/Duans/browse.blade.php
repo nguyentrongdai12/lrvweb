@@ -4,7 +4,6 @@
 
 @section('page_header')
     <div class="container-fluid">
-        <h1>Này là custom riêng cho danh mục chi nha</h1>
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
@@ -25,16 +24,20 @@
         @endcan
         @can('delete', app($dataType->model_name))
             @if($usesSoftDeletes)
-            
                 <input type="checkbox" @if ($showSoftDeleted) checked @endif id="show_soft_deletes" data-toggle="toggle" data-on="{{ __('voyager::bread.soft_deletes_off') }}" data-off="{{ __('voyager::bread.soft_deletes_on') }}">
-            
-            @endif  
+            @endif
         @endcan
         @foreach($actions as $action)
             @if (method_exists($action, 'massAction'))
                 @include('voyager::bread.partials.actions', ['action' => $action, 'data' => null])
             @endif
         @endforeach
+        
+        <!-- Thêm html của nút dọn thùng rác -->
+        <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
+
+        <a href="{{ setting('admin.github-dainguyen') }}" target="_blank" class="btn btn-link pull-right">Link github README.mb</a>
+
         @include('voyager::multilingual.language-selector')
     </div>
 @stop
@@ -91,7 +94,19 @@
                                             @if ($isServerSide && in_array($row->field, $sortableColumns))
                                                 <a href="{{ $row->sortByUrl($orderBy, $sortOrder) }}">
                                             @endif
-                                            {{ $row->getTranslatedAttribute('display_name') }}
+                                            
+                                            @if($row->field == 'da_tenduan') <!-- Nếu cột này là cột da_tenduan -->
+                                                {{ $row->getTranslatedAttribute('display_name') }} <!-- thì hiển thị nó ra -->
+                                                @foreach($dataType->browseRows as $row2) <!-- chạy lại các cột -->
+                                                    @if($row2->field == 'da_ngaygiaoviec') <!-- Nếu cột này là cột da_ngaygiaoviec -->
+                                                        {{ $row2->getTranslatedAttribute('display_name') }} <!-- thì hiển thị nó ra từ row2 -->
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            
+                                            <!-- mặc định hiển thị của nó -->
+                                            <!-- {{ $row->getTranslatedAttribute('display_name') }} -->
+
                                             @if ($isServerSide)
                                                 @if ($row->isCurrentSortField($orderBy))
                                                     @if ($sortOrder == 'asc')
@@ -161,12 +176,10 @@
                                                         @endif
 
                                                 @elseif(($row->type == 'select_dropdown' || $row->type == 'radio_btn') && property_exists($row->details, 'options'))
-                                                @if($data->{$row->field} == 0)
-                                                            <span class="label label-danger"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
-                                                        @elseif($data->{$row->field} == 1)
+                                                    @if($data->{$row->field} == 1)
                                                             <span class="label label-info"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
-                                                        @else
-                                                            <span class="label label-primary"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
+                                                        @else 
+                                                            <span class="label label-danger"> {!! $row->details->options->{$data->{$row->field}} ?? '' !!} </span>
                                                         @endif
                                                 @elseif($row->type == 'date' || $row->type == 'timestamp')
                                                     @if ( property_exists($row->details, 'format') && !is_null($data->{$row->field}) )
@@ -264,7 +277,7 @@
                                                 @if (!method_exists($action, 'massAction'))
                                                     @include('voyager::bread.partials.actions', ['action' => $action])
                                                 @endif
-                                            @endforeach    
+                                            @endforeach
                                         </td>
                                     </tr>
                                     @endforeach
@@ -315,7 +328,27 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div><!-- /.modal -->    
+
+    <!-- modal của delete trash --> 
+    <div class="modal modal-danger fade" tabindex="-1" id="delete_trash_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> Thông báo dọn sạch thùng rác</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="delete_trash_form" method="GET">
+                        
+                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="{{ __('voyager::generic.delete_confirm') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->  
+
 @stop
 
 @section('css')
@@ -367,6 +400,12 @@
             $('#delete_modal').modal('show');
         });
 
+        // script delete trash
+        $('.delete_trash_btn').on('click', function () {
+            $('#delete_trash_form')[0].action = '{{ route('deletetrash', ['table' => $dataType->slug, 'check' => True]) }}';
+           $('#delete_trash_modal').modal('show');
+        });
+
         @if($usesSoftDeletes)
             @php
                 $params = [
@@ -382,7 +421,7 @@
                     if ($(this).prop('checked')) {
                         $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 1]), true)) }}"></a>');
                     }else{
-                        $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 0]), true)) }}"></a>');                        
+                        $('#dataTable').before('<a id="redir" href="{{ (route('voyager.'.$dataType->slug.'.index', array_merge($params, ['showSoftDeleted' => 0]), true)) }}"></a>');
                     }
 
                     $('#redir')[0].click();
