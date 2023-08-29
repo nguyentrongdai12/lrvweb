@@ -181,7 +181,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 ```
 <!-- Thêm html của nút dọn thùng rác -->
-        @if($usesSoftDeletes)
+        @if($usesSoftDeletes && $showSoftDeleted)
             <a href="javascript:void(0)" class="btn btn-sm btn-warning delete_trash_btn"><i class="voyager-trash"></i> Dọn thùng rác</a>
         @endif
 ```
