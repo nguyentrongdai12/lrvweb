@@ -224,3 +224,29 @@ Route::group(['prefix' => 'admin'], function () {
 ```
 <a href="{{ route('voyager.'.$dataType->slug.'.edit', $data->{$data->getKeyName()}) }}">
 ```
+
+<h3>Cấu hình media và hình ảnh khi upload lên host (storage của voyager)</h3>
+<p>File .end</p>
+<p>Khai báo APP_URL không chứa public</p>
+
+```
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:UInBT/4W2O2QyOURb4tcKivUPJG5vT1nAbl/nOh0Aq8=
+APP_DEBUG=true
+APP_URL=http://localhost <- loại bỏ public ->
+```
+
+<p>File config/filesystem.php</p>
+<p>Khai báo đường dẫn cho storage và url hiển thị hình ảnh, tại đây sử dụng luôn thư mục mặc định của voyager tại htttp://localhost/storage thay vì http://localhost/public/storage với storage trong public là shortcut hoặc symlink cho các trường hợp hosting không hỗ trợ tạo shortcut và symlink</p>
+
+```
+'public' => [
+            'driver' => 'local',
+            'root' => storage_path('/app/public'), <- Nơi lưu trữ ->
+            'url' => env('APP_URL').'/storage/app/public', <- Hiển thị url ra ngoài html ->
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+```
+
