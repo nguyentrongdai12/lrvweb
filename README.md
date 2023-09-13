@@ -226,7 +226,7 @@ Route::group(['prefix' => 'admin'], function () {
 ```
 
 <h3>Cấu hình media và hình ảnh khi upload lên host (storage của voyager)</h3>
-<p>File .end</p>
+<p>File .env</p>
 <p>Khai báo APP_URL không chứa public</p>
 
 ```
