@@ -41,9 +41,9 @@ class Site extends Model
 
 ```
 {
-    "slugify": { // gọi hàm slugify
-        "origin": "tenhangmuc", // tenhangmuc là tên của cột 'Tên hạng mục' trong database
-        "forceUpdate": true // Tùy chỉnh luôn tự sinh ra slug khi cột tenhangmuc có sự thay đổi
+    "slugify": {
+        "origin": "tenhangmuc",
+        "forceUpdate": true
     }
 }
 ```
