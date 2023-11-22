@@ -250,3 +250,5 @@ APP_URL=http://localhost <- loại bỏ public ->
         ],
 ```
 
+<h2>Hiển thị html trong mysql ra nội dung ngoài template</h2>
+<p>Với nội dung html được lưu bằng tiny trong DB thì hiển thị ngoài view bằng {!! nội dung html !!}</p>
