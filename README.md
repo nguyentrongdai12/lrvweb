@@ -254,8 +254,9 @@ APP_URL=http://localhost <- loại bỏ public ->
 <p>Với nội dung html được lưu bằng tiny trong DB thì hiển thị ngoài view bằng {!! nội dung html !!}</p>
 
 <h2>Truyền dữ liệu toàn cục cho toàn bộ view</h2>
-<quote>Với cách truyền dữ liệu này, với các biến cần cpmpact vào nhiều view là liên tục, sử dụng provider để truyền dữ liệu, lúc này toàn bộ view sẽ được mặc định nhận được biến đã được cấu hình</quote>
+<quote>Với cách truyền dữ liệu này, với các biến cần compact vào nhiều view là liên tục, sử dụng provider để truyền dữ liệu, lúc này toàn bộ view sẽ được mặc định nhận được biến đã được cấu hình</quote>
 <p>1. Thêm biến vào AppServiceProvider tại đường dẫn: app\Providers\AppServiceProvider (cũng có thể tạo riêng một provider tự tạo)</p>
+<quote>Hướng dẫn tạo provider mới: https://laravel.com/docs/10.x/providers</quote>
 <p> Sử dụng 2 lớp DB và View cho AppServiceProvider: </p>
 
 ```
