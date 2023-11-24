@@ -283,12 +283,12 @@ use Illuminate\Support\Facades\View;
 ```
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{{route('index')}}">
-            <img src="{{ Voyager::image( setting('site.logo') ) }} " class="navbar-brand-image img-fluid"
-                alt="CDB Tech">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images\logo.png" class="navbar-brand-image img-fluid"
+                alt="Logo company">
             <span class="navbar-brand-text">
-                CDB TECH
-                <small>Công ty TNHH Dịch Vụ Công Nghệ</small>
+                Company name
+                <small>Description</small>
             </span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
