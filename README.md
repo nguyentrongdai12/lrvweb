@@ -256,13 +256,15 @@ APP_URL=http://localhost <- loại bỏ public ->
 <h2>Truyền dữ liệu toàn cục cho toàn bộ view</h2>
 <quote>Với cách truyền dữ liệu này, với các biến cần cpmpact vào nhiều view là liên tục, sử dụng provider để truyền dữ liệu, lúc này toàn bộ view sẽ được mặc định nhận được biến đã được cấu hình</quote>
 <p>1. Thêm biến vào AppServiceProvider tại đường dẫn: app\Providers\AppServiceProvider (cũng có thể tạo riêng một provider tự tạo)</p>
-<p> Sử dụng 2 lớp DB và View cho AppServiceProvider</p>
+<p> Sử dụng 2 lớp DB và View cho AppServiceProvider: </p>
+
 ```
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 ```
 
-<p>2. Tại public function boot() tiến hành khởi tạo biến và truyền biến cho toàn bộ view</p>
+<p>2. Tại hàm:  public function boot() , tiến hành khởi tạo biến và truyền biến cho toàn bộ view: </p>
+
 ```
     public function boot()
     {
