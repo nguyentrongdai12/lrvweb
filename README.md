@@ -252,3 +252,24 @@ APP_URL=http://localhost <- loại bỏ public ->
 
 <h2>Hiển thị html trong mysql ra nội dung ngoài template</h2>
 <p>Với nội dung html được lưu bằng tiny trong DB thì hiển thị ngoài view bằng {!! nội dung html !!}</p>
+
+<h2>Truyền dữ liệu toàn cục cho toàn bộ view</h2>
+<quote>Với cách truyền dữ liệu này, với các biến cần cpmpact vào nhiều view là liên tục, sử dụng provider để truyền dữ liệu, lúc này toàn bộ view sẽ được mặc định nhận được biến đã được cấu hình</quote>
+<p>1. Thêm biến vào AppServiceProvider tại đường dẫn: app\Providers\AppServiceProvider (cũng có thể tạo riêng một provider tự tạo)</p>
+<p> Sử dụng 2 lớp DB và View cho AppServiceProvider</p>
+```
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
+```
+
+<p>2. Tại public function boot() tiến hành khởi tạo biến và truyền biến cho toàn bộ view</p>
+```
+    public function boot()
+    {
+        $contact = DB::table('contacts')->where('id','1')->first();
+        View::share('contact', $contact);
+    }
+```
+
+<p>Lúc này biến $contact sẽ được truyền vào toàn bộ view mỗi khi view được load thông qua url hoặc route mà không cần compact thông qua controller</p>
+    
