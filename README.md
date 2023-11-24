@@ -276,3 +276,50 @@ use Illuminate\Support\Facades\View;
 
 <p>Lúc này biến $contact sẽ được truyền vào toàn bộ view mỗi khi view được load thông qua url hoặc route mà không cần compact thông qua controller</p>
     
+<h1>Tự tạo menu riêng (template riêng cho menu)</h1>
+<p>1. Tạo file view cho menu: tạo 1 file mới có tên menubase.blade.php trong thư mục views</p>
+<p>Nội dung mẫu file menubase.blade.php:</p>
+
+```
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{{route('index')}}">
+            <img src="{{ Voyager::image( setting('site.logo') ) }} " class="navbar-brand-image img-fluid"
+                alt="CDB Tech">
+            <span class="navbar-brand-text">
+                CDB TECH
+                <small>Công ty TNHH Dịch Vụ Công Nghệ</small>
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-auto">                
+                @foreach($items as $menu_item)
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll {{(url($menu_item->link()) == url()->current())?'active':'inactive'}}" href="{{url($menu_item->link())}}">
+                            {{$menu_item->title}}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+<p>Tại đây có thể thay đổi chỉnh sửa tùy ý về cấu trúc và css</p>
+<p><i>* Lưu ý: các biến $ nằm trong file và vòng lặp nhằm load menu tại model menu và hiển thị, không chỉnh sửa, chỉ chỉnh sửa cấu trúc html và css</i></p>
+
+<p>2. Sau khi tạo view thành công cho menu tùy chỉnh, tiến hành gọi menu tại views cần xuất hiện menu bằng cú pháp: {{ menu('tên menu', 'tên template') }}</p>
+<p>Với "tên menu" là tên của menu được đặt trong menu của voyager</p>
+<p>Với "tên template" là tên của file view đã tạo từ bước 1:</p>
+<p>Ví dụ: Tên menu: menuhome - Tên template: menubase.blade.php, tiến hành gọi menu như sau</p>
+
+```
+{{ menu('menuhome', 'menubase') }}
+```
+
