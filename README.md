@@ -323,3 +323,4 @@ use Illuminate\Support\Facades\View;
 {{ menu('menuhome', 'menubase') }}
 ```
 
+<p><b><i>Giải nghĩa: <br>menu('','') là hàm load menu từ model menu của voyager<br>menuhome: gán menu có tên menuhome cần gọi vào hàm menu<br>menubase: khai báo template để sử dụng menu</i></b></p>
